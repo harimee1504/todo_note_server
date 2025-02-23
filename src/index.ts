@@ -1,4 +1,5 @@
 import 'dotenv/config'
+import path from 'path';
 import cors from 'cors'
 import http from 'http'
 import express from 'express'
@@ -13,9 +14,11 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import { loadFilesSync } from '@graphql-tools/load-files'
 import { mergeResolvers } from "@graphql-tools/merge";
 
+// Get the directory name dynamically
+const basePath = process.env.NODE_ENV === 'dev' ? path.join(__dirname, '../src') : path.join(__dirname, '../public/dist');
 
-const resolvers = mergeResolvers(loadFilesSync('./src/graphql/**/*.ts'));
-const typeDefs = loadFilesSync('./src/graphql/**/*.graphql')
+const resolvers = mergeResolvers(loadFilesSync(path.join(basePath, 'graphql/**/*.js')));
+const typeDefs = loadFilesSync(path.join(basePath, 'graphql/**/*.graphql'))
 
 const port = process.env.PORT || 5000
 const corsOptions = {
