@@ -1,5 +1,5 @@
 import { getAuth} from '@clerk/express'
-import {cache} from '../server'
+import {cache} from '..'
 import { clerkClient } from '@clerk/express'
 
 const withPermission = (context: any, permission: string) => {
