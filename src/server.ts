@@ -28,22 +28,21 @@ app.use(clerkMiddleware(), cors(corsOptions))
 
 const httpServer = http.createServer(app)
 
-const server = new ApolloServer<BaseContext>({
-    typeDefs,
-    resolvers,
-    introspection: true,
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
-    formatError: (error) => {
-        return {
-            message: error.message,
-            statusCode: error.extensions?.code || 500,
-        }
-    },
-});
+const startApolloServer = async (app: express.Express, httpServer: http.Server<typeof http.IncomingMessage, typeof http.ServerResponse>) => {
+ 
+    const server = new ApolloServer<BaseContext>({
+        typeDefs,
+        resolvers,
+        introspection: true,
+        plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+        formatError: (error) => {
+            return {
+                message: error.message,
+                statusCode: error.extensions?.code || 500,
+            }
+        },
+    });
 
-let cachedServer: any;
-
-async function initialize() {
     await server.start()
     
     const apolloMiddleware = expressMiddleware(server, {
@@ -57,14 +56,11 @@ async function initialize() {
     await new Promise<void>((resolve) => httpServer.listen({ port: port, host: '0.0.0.0' }, resolve))
     
     console.log(`Server is running on port http://localhost:${port}`)
-    
-    cachedServer = server;
-    return server;
 
 }
 
-initialize();
+startApolloServer(app, httpServer);
 
 export const cache = new NodeCache({ stdTTL: 60 * 5 });
 
-export default app;
+export default httpServer;

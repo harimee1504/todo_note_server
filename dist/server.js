@@ -34,35 +34,30 @@ const corsOptions = {
 const app = (0, express_1.default)();
 app.use((0, express_2.clerkMiddleware)(), (0, cors_1.default)(corsOptions));
 const httpServer = http_1.default.createServer(app);
-const server = new server_1.ApolloServer({
-    typeDefs,
-    resolvers,
-    introspection: true,
-    plugins: [(0, drainHttpServer_1.ApolloServerPluginDrainHttpServer)({ httpServer })],
-    formatError: (error) => {
-        var _a;
-        return {
-            message: error.message,
-            statusCode: ((_a = error.extensions) === null || _a === void 0 ? void 0 : _a.code) || 500,
-        };
-    },
-});
-let cachedServer;
-function initialize() {
-    return __awaiter(this, void 0, void 0, function* () {
-        yield server.start();
-        const apolloMiddleware = (0, express4_1.expressMiddleware)(server, {
-            context: (_a) => __awaiter(this, [_a], void 0, function* ({ req, res }) {
-                return { req, res };
-            }),
-        });
-        app.use('/graphql', express_1.default.json(), (0, express_2.requireAuth)(), apolloMiddleware);
-        yield new Promise((resolve) => httpServer.listen({ port: port, host: '0.0.0.0' }, resolve));
-        console.log(`Server is running on port http://localhost:${port}`);
-        cachedServer = server;
-        return server;
+const startApolloServer = (app, httpServer) => __awaiter(void 0, void 0, void 0, function* () {
+    const server = new server_1.ApolloServer({
+        typeDefs,
+        resolvers,
+        introspection: true,
+        plugins: [(0, drainHttpServer_1.ApolloServerPluginDrainHttpServer)({ httpServer })],
+        formatError: (error) => {
+            var _a;
+            return {
+                message: error.message,
+                statusCode: ((_a = error.extensions) === null || _a === void 0 ? void 0 : _a.code) || 500,
+            };
+        },
     });
-}
-initialize();
+    yield server.start();
+    const apolloMiddleware = (0, express4_1.expressMiddleware)(server, {
+        context: (_a) => __awaiter(void 0, [_a], void 0, function* ({ req, res }) {
+            return { req, res };
+        }),
+    });
+    app.use('/graphql', express_1.default.json(), (0, express_2.requireAuth)(), apolloMiddleware);
+    yield new Promise((resolve) => httpServer.listen({ port: port, host: '0.0.0.0' }, resolve));
+    console.log(`Server is running on port http://localhost:${port}`);
+});
+startApolloServer(app, httpServer);
 exports.cache = new node_cache_1.default({ stdTTL: 60 * 5 });
-exports.default = app;
+exports.default = httpServer;
