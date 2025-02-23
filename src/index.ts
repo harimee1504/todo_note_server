@@ -1,5 +1,4 @@
 import 'dotenv/config'
-import path from 'path';
 import cors from 'cors'
 import http from 'http'
 import express from 'express'
@@ -14,11 +13,9 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import { loadFilesSync } from '@graphql-tools/load-files'
 import { mergeResolvers } from "@graphql-tools/merge";
 
-// Get the directory name dynamically
-const basePath = process.env.NODE_ENV === 'dev' ? path.join(__dirname, '../src') : path.join(__dirname, '../dist');
 
-const resolvers = mergeResolvers(loadFilesSync(path.join(basePath, 'graphql/**/*.js')));
-const typeDefs = loadFilesSync(path.join(basePath, 'graphql/**/*.graphql'))
+const resolvers = process.env.NODE_ENV === 'development' ? mergeResolvers(loadFilesSync('./src/graphql/**/*.ts')) : mergeResolvers(loadFilesSync('./dist/graphql/**/*.js'));
+const typeDefs = process.env.NODE_ENV === 'development' ? loadFilesSync('./src/graphql/**/*.graphql') : loadFilesSync('./dist/graphql/**/*.graphql');
 
 const port = process.env.PORT || 5000
 const corsOptions = {
@@ -47,9 +44,6 @@ const server = new ApolloServer<BaseContext>({
 });
 
 export default async function handler() {
-    console.log(path.join(__dirname, '../src'))
-    console.log(path.join(__dirname, '../dist'))
-    console.log(path.join(__dirname, '../public/dist'))
     await server.start()
     
     const apolloMiddleware = expressMiddleware(server, {
@@ -65,6 +59,6 @@ export default async function handler() {
     console.log(`Server is running on port http://localhost:${port}`)
 }
 
-export const cache = new NodeCache({ stdTTL: 60 * 5 });
-
 handler();
+
+export const cache = new NodeCache({ stdTTL: 60 * 5 });
