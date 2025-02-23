@@ -45,12 +45,12 @@ const loadTypeDefs = (filePaths) => __awaiter(void 0, void 0, void 0, function* 
     return files.join('\n');
 });
 const schemaPaths = [
-    'graphql/note-comments/index.graphql',
-    'graphql/notes/index.graphql',
-    'graphql/todo-comments/index.graphql',
-    'graphql/todos/index.graphql',
-    'graphql/tags/index.graphql',
-    'graphql/users/index.graphql'
+    '/graphql/note-comments/index.graphql',
+    '/graphql/notes/index.graphql',
+    '/graphql/todo-comments/index.graphql',
+    '/graphql/todos/index.graphql',
+    '/graphql/tags/index.graphql',
+    '/graphql/users/index.graphql'
 ];
 const port = process.env.PORT || 5000;
 const corsOptions = {
