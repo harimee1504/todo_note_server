@@ -24,7 +24,20 @@ const express4_1 = require("@apollo/server/express4");
 const drainHttpServer_1 = require("@apollo/server/plugin/drainHttpServer");
 const load_files_1 = require("@graphql-tools/load-files");
 const merge_1 = require("@graphql-tools/merge");
-const resolvers = (0, merge_1.mergeResolvers)((0, load_files_1.loadFilesSync)('./dist/graphql/**/*.js'));
+const index_1 = __importDefault(require("./graphql/note-comments/index"));
+const index_2 = __importDefault(require("./graphql/notes/index"));
+const index_3 = __importDefault(require("./graphql/todo-comments/index"));
+const index_4 = __importDefault(require("./graphql/todos/index"));
+const index_5 = __importDefault(require("./graphql/tags/index"));
+const index_6 = __importDefault(require("./graphql/users/index"));
+const resolvers = (0, merge_1.mergeResolvers)([
+    index_1.default,
+    index_2.default,
+    index_3.default,
+    index_4.default,
+    index_5.default,
+    index_6.default
+]);
 const typeDefs = (0, load_files_1.loadFilesSync)('./dist/graphql/**/*.graphql');
 const port = process.env.PORT || 5000;
 const corsOptions = {
