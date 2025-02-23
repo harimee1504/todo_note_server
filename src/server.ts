@@ -13,7 +13,21 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import { loadFilesSync } from '@graphql-tools/load-files'
 import { mergeResolvers } from "@graphql-tools/merge";
 
-const resolvers = mergeResolvers(loadFilesSync('./dist/graphql/**/*.js'));
+import noteCommentResolvers from './graphql/note-comments/index'
+import noteResolvers from './graphql/notes/index'
+import todoCommentResolvers from './graphql/todo-comments/index'
+import todoResolvers from './graphql/todos/index'
+import tagResolvers from './graphql/tags/index'
+import userResolvers from './graphql/users/index'
+
+const resolvers = mergeResolvers([
+    noteCommentResolvers,
+    noteResolvers,
+    todoCommentResolvers,
+    todoResolvers,
+    tagResolvers,
+    userResolvers
+]);
 const typeDefs = loadFilesSync('./dist/graphql/**/*.graphql')
 
 const port = process.env.PORT || 5000
