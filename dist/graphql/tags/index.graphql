@@ -1,0 +1,33 @@
+scalar Date
+
+input TagCreate {
+    tag: String
+}
+
+input TagUpdate {
+    id: ID!
+    tag: String
+}
+
+input TagDelete {
+    id: ID!
+}
+
+type Tag {
+    id: ID!
+    tag: String
+}
+
+type Deleted {
+    deleted: Boolean
+}
+
+type Query {
+    getTags : [Tag]
+}
+
+type Mutation {
+    createTag(input: TagCreate) : Tag
+    updateTag(input: TagUpdate) : Tag
+    deleteTag(input: TagDelete) : Deleted
+}

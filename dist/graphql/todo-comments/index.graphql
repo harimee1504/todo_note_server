@@ -1,0 +1,48 @@
+scalar Date
+
+input TodoCommentCreate {
+    todo_id: String!
+    comment: String!
+    mentions: [String]
+}
+
+input TodoCommentUpdate {
+    id: ID!
+    todo_id: String!
+    comment: String
+    mentions: [String]
+}
+
+input TodoCommentDelete {
+    id: ID!
+}
+
+input TodoCommentsInput {
+    todo_id: String!
+}
+
+type TodoComment {
+    id: ID!
+    comment: String
+    mentions: [User]
+    todo_id: String!
+    org_id: String!
+    createdBy: User
+    updatedBy: User
+    createdAt: Date!
+    updatedAt: Date!
+}
+
+type Deleted {
+    deleted: Boolean
+}
+
+type Query {
+    getTodoComments(input: TodoCommentsInput) : [TodoComment]
+}
+
+type Mutation {
+    createTodoComment(input: TodoCommentCreate) : TodoComment
+    updateTodoComment(input: TodoCommentUpdate) : TodoComment
+    deleteTodoComment(input: TodoCommentDelete) : Deleted
+}
