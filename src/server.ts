@@ -35,7 +35,7 @@ const resolvers = mergeResolvers([
 const loadTypeDefs = (filePaths: any[]) => {
   return filePaths.map(filePath => {
 
-    const fullPath = path.join(__dirname, filePath);
+    const fullPath = path.resolve(filePath);
 
     return fs.readFileSync(fullPath, 'utf-8');
   }).join('\n');
