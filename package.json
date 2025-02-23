@@ -3,7 +3,9 @@
     "version": "1.0.0",
     "main": "dist/server.js",
     "scripts": {
-        "build": "npx tsc",
+        "build": "rimraf dist && tsc",
+        "ts.check": "tsc --project tsconfig.json",
+        "add-build": "git add dist",
         "start": "node dist/server.js",
         "dev": "nodemon src/server.ts",
         "debug": "nodemon --inspect=127.0.0.1:9230 src/server.ts",
@@ -12,6 +14,11 @@
         "lint:check": "eslint .",
         "lint:fix": "eslint --fix ."
     },
+    "pre-commit": [
+      "ts.check",
+      "build",
+      "add-build"
+  ],
     "keywords": [],
     "author": "",
     "license": "ISC",
@@ -41,6 +48,8 @@
         "eslint": "^9.17.0",
         "globals": "^15.14.0",
         "nodemon": "^3.1.9",
+        "pre-commit": "^1.2.2",
+        "rimraf": "^6.0.1",
         "ts-node": "^10.9.2",
         "typescript": "^5.7.2",
         "typescript-eslint": "^8.18.1"
