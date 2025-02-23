@@ -8,7 +8,8 @@ const sequelize = new Sequelize.Sequelize(
     {
         host: process.env.DB_HOST || '',
         port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 3307,
-        dialectModule: mysql2,
+        dialect: 'mysql',
+        dialectModule: mysql2
     }
 )
 
@@ -20,5 +21,7 @@ sequelize
     .catch((error) => {
         console.error('Failed to synchronize database:', error)
     })
+
+module.exports = sequelize
 
 export default sequelize
