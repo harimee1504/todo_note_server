@@ -43,12 +43,12 @@ const loadTypeDefs = async (filePaths: any[]) => {
 
 
 const schemaPaths = [
-  '/graphql/note-comments/index.graphql',
-  '/graphql/notes/index.graphql',
-  '/graphql/todo-comments/index.graphql',
-  '/graphql/todos/index.graphql',
-  '/graphql/tags/index.graphql',
-  '/graphql/users/index.graphql'
+  '/src/graphql/note-comments/index.graphql',
+  '/src/graphql/notes/index.graphql',
+  '/src/graphql/todo-comments/index.graphql',
+  '/src/graphql/todos/index.graphql',
+  '/src/graphql/tags/index.graphql',
+  '/src/graphql/users/index.graphql'
 ];
 
 
