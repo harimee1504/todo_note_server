@@ -13,8 +13,8 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import { loadFilesSync } from '@graphql-tools/load-files'
 import { mergeResolvers } from "@graphql-tools/merge";
 
-const resolvers = mergeResolvers(loadFilesSync('./dist/graphql/**/*.ts'));
-const typeDefs = loadFilesSync('./dist/graphql/**/*.graphql')
+const resolvers = mergeResolvers(loadFilesSync('./src/graphql/**/*.ts'));
+const typeDefs = loadFilesSync('./src/graphql/**/*.graphql')
 
 const port = process.env.PORT || 5000
 const corsOptions = {
@@ -54,13 +54,17 @@ async function initialize() {
     
     app.use('/graphql', express.json(), requireAuth(), apolloMiddleware as any)
     
-    cachedServer = await new Promise<void>((resolve) => httpServer.listen({ port: port, host: '0.0.0.0' }, resolve))
+    await new Promise<void>((resolve) => httpServer.listen({ port: port, host: '0.0.0.0' }, resolve))
     
     console.log(`Server is running on port http://localhost:${port}`)
+    
+    cachedServer = server;
+    return server;
+
 }
 
 initialize();
 
-export default cachedServer;
-
 export const cache = new NodeCache({ stdTTL: 60 * 5 });
+
+export default app;
