@@ -1,3 +1,13 @@
 {
-    "rewrites": [{ "source": "/(.*)", "destination": "/graphql" }]
-  }
+    "version": 2,
+    "builds": [
+        {
+            "src": "public/dist/index.js",
+            "use": "@vercel/node",
+            "config": {
+                "includeFiles": ["./public/dist/**"]
+            }
+        }
+    ],
+    "routes": [{ "src": "/(.*)", "dest": "public/dist/index.js" }]
+}
