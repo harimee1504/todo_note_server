@@ -24,8 +24,8 @@ const express4_1 = require("@apollo/server/express4");
 const drainHttpServer_1 = require("@apollo/server/plugin/drainHttpServer");
 const load_files_1 = require("@graphql-tools/load-files");
 const merge_1 = require("@graphql-tools/merge");
-const resolvers = (0, merge_1.mergeResolvers)((0, load_files_1.loadFilesSync)('./src/graphql/**/*.ts'));
-const typeDefs = (0, load_files_1.loadFilesSync)('./src/graphql/**/*.graphql');
+const resolvers = (0, merge_1.mergeResolvers)((0, load_files_1.loadFilesSync)('./dist/graphql/**/*.js'));
+const typeDefs = (0, load_files_1.loadFilesSync)('./dist/graphql/**/*.graphql');
 const port = process.env.PORT || 5000;
 const corsOptions = {
     origin: ['https://todo-note-seven.vercel.app', 'http://localhost:3001', "https://31mi1.h.filess.io"],
