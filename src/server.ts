@@ -13,9 +13,8 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import { loadFilesSync } from '@graphql-tools/load-files'
 import { mergeResolvers } from "@graphql-tools/merge";
 
-
-const resolvers = process.env.NODE_ENV === 'development' ? mergeResolvers(loadFilesSync('./src/graphql/**/*.ts')) : mergeResolvers(loadFilesSync('./dist/graphql/**/*.js'));
-const typeDefs = process.env.NODE_ENV === 'development' ? loadFilesSync('./src/graphql/**/*.graphql') : loadFilesSync('./dist/graphql/**/*.graphql');
+const resolvers = mergeResolvers(loadFilesSync('./dist/graphql/**/*.ts'));
+const typeDefs = loadFilesSync('./dist/graphql/**/*.graphql')
 
 const port = process.env.PORT || 5000
 const corsOptions = {
@@ -26,7 +25,6 @@ const corsOptions = {
 const app = express()
 
 app.use(clerkMiddleware(), cors(corsOptions))
-
 
 const httpServer = http.createServer(app)
 
@@ -43,7 +41,9 @@ const server = new ApolloServer<BaseContext>({
     },
 });
 
-export default async function handler() {
+let cachedServer: any;
+
+async function initialize() {
     await server.start()
     
     const apolloMiddleware = expressMiddleware(server, {
@@ -54,11 +54,13 @@ export default async function handler() {
     
     app.use('/graphql', express.json(), requireAuth(), apolloMiddleware as any)
     
-    await new Promise<void>((resolve) => httpServer.listen({ port: port, host: '0.0.0.0' }, resolve))
+    cachedServer = await new Promise<void>((resolve) => httpServer.listen({ port: port, host: '0.0.0.0' }, resolve))
     
     console.log(`Server is running on port http://localhost:${port}`)
 }
 
-handler();
+initialize();
+
+export default cachedServer;
 
 export const cache = new NodeCache({ stdTTL: 60 * 5 });
