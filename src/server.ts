@@ -13,8 +13,8 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import { loadFilesSync } from '@graphql-tools/load-files'
 import { mergeResolvers } from "@graphql-tools/merge";
 
-const resolvers = mergeResolvers(loadFilesSync('./src/graphql/**/*.ts'));
-const typeDefs = loadFilesSync('./src/graphql/**/*.graphql')
+const resolvers = mergeResolvers(loadFilesSync('./dist/graphql/**/*.ts'));
+const typeDefs = loadFilesSync('./dist/graphql/**/*.graphql')
 
 const port = process.env.PORT || 5000
 const corsOptions = {
