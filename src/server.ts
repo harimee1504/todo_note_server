@@ -1,4 +1,4 @@
-import fs from 'fs';
+import { promises as fs} from 'fs';
 import path from 'path';
 import 'dotenv/config'
 import cors from 'cors'
@@ -32,14 +32,14 @@ const resolvers = mergeResolvers([
 
 
 
-const loadTypeDefs = (filePaths: any[]) => {
-  return filePaths.map(filePath => {
-
-    const fullPath = path.resolve(filePath);
-
-    return fs.readFileSync(fullPath, 'utf-8');
-  }).join('\n');
-};
+const loadTypeDefs = async (filePaths: any[]) => {
+    const files = await Promise.all(
+      filePaths.map(async (filePath) => {
+        return await fs.readFile(process.cwd() + filePath, 'utf-8');
+      })
+    );
+    return files.join('\n');
+  };
 
 
 const schemaPaths = [
@@ -50,9 +50,6 @@ const schemaPaths = [
   './graphql/tags/index.graphql',
   './graphql/users/index.graphql'
 ];
-
-
-const typeDefs = loadTypeDefs(schemaPaths);
 
 
 const port = process.env.PORT || 5000
@@ -69,6 +66,8 @@ const httpServer = http.createServer(app)
 
 const startApolloServer = async (app: express.Express, httpServer: http.Server<typeof http.IncomingMessage, typeof http.ServerResponse>) => {
  
+    const typeDefs = await loadTypeDefs(schemaPaths);
+
     const server = new ApolloServer<BaseContext>({
         typeDefs,
         resolvers,

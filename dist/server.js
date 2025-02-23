@@ -13,8 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cache = void 0;
-const fs_1 = __importDefault(require("fs"));
-const path_1 = __importDefault(require("path"));
+const fs_1 = require("fs");
 require("dotenv/config");
 const cors_1 = __importDefault(require("cors"));
 const http_1 = __importDefault(require("http"));
@@ -39,12 +38,12 @@ const resolvers = (0, merge_1.mergeResolvers)([
     index_5.default,
     index_6.default
 ]);
-const loadTypeDefs = (filePaths) => {
-    return filePaths.map(filePath => {
-        const fullPath = path_1.default.resolve(filePath);
-        return fs_1.default.readFileSync(fullPath, 'utf-8');
-    }).join('\n');
-};
+const loadTypeDefs = (filePaths) => __awaiter(void 0, void 0, void 0, function* () {
+    const files = yield Promise.all(filePaths.map((filePath) => __awaiter(void 0, void 0, void 0, function* () {
+        return yield fs_1.promises.readFile(process.cwd() + filePath, 'utf-8');
+    })));
+    return files.join('\n');
+});
 const schemaPaths = [
     './graphql/note-comments/index.graphql',
     './graphql/notes/index.graphql',
@@ -53,7 +52,6 @@ const schemaPaths = [
     './graphql/tags/index.graphql',
     './graphql/users/index.graphql'
 ];
-const typeDefs = loadTypeDefs(schemaPaths);
 const port = process.env.PORT || 5000;
 const corsOptions = {
     origin: ['https://todo-note-seven.vercel.app', 'http://localhost:3001', "https://31mi1.h.filess.io"],
@@ -63,6 +61,7 @@ const app = (0, express_1.default)();
 app.use((0, express_2.clerkMiddleware)(), (0, cors_1.default)(corsOptions));
 const httpServer = http_1.default.createServer(app);
 const startApolloServer = (app, httpServer) => __awaiter(void 0, void 0, void 0, function* () {
+    const typeDefs = yield loadTypeDefs(schemaPaths);
     const server = new server_1.ApolloServer({
         typeDefs,
         resolvers,
