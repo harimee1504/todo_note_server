@@ -15,7 +15,7 @@ import { loadFilesSync } from '@graphql-tools/load-files'
 import { mergeResolvers } from "@graphql-tools/merge";
 
 // Get the directory name dynamically
-const basePath = process.env.NODE_ENV === 'dev' ? path.join(__dirname, '../src') : path.join(__dirname, '../public/dist');
+const basePath = process.env.NODE_ENV === 'dev' ? path.join(__dirname, '../src') : path.join(__dirname, '../dist');
 
 const resolvers = mergeResolvers(loadFilesSync(path.join(basePath, 'graphql/**/*.js')));
 const typeDefs = loadFilesSync(path.join(basePath, 'graphql/**/*.graphql'))
@@ -47,6 +47,9 @@ const server = new ApolloServer<BaseContext>({
 });
 
 export default async function handler() {
+    console.log(path.join(__dirname, '../src'))
+    console.log(path.join(__dirname, '../dist'))
+    console.log(path.join(__dirname, '../public/dist'))
     await server.start()
     
     const apolloMiddleware = expressMiddleware(server, {
