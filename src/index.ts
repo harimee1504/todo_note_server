@@ -43,7 +43,7 @@ const server = new ApolloServer<BaseContext>({
     },
 });
 
-(async () => {
+export default async function handler() {
     await server.start()
     
     const apolloMiddleware = expressMiddleware(server, {
@@ -57,6 +57,8 @@ const server = new ApolloServer<BaseContext>({
     await new Promise<void>((resolve) => httpServer.listen({ port: port, host: '0.0.0.0' }, resolve))
     
     console.log(`Server is running on port http://localhost:${port}`)
-})()
+}
 
 export const cache = new NodeCache({ stdTTL: 60 * 5 });
+
+handler();
