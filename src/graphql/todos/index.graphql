@@ -1,0 +1,88 @@
+scalar Date
+
+input TodoCreate {
+    todo: String! 
+    description: String
+    dueDate: Date!
+    isPrivate: Boolean
+    assignedTo: [String]
+    mentions: [String]
+    tags: [String]
+}
+
+input TodoUpdate {
+    id: ID!
+    todo: String
+    description: String
+    isPrivate: Boolean
+    dueDate: Date
+    status: String
+    assignedTo: [String]
+    mentions: [String]
+    tags: [String]
+}
+
+input TodoUpdateStatus {
+    id: ID!
+    status: String
+}
+
+input TodoDelete {
+    id: ID!
+}
+
+input TodoFilterOptions {
+    todo: String
+    description: String
+    createdBy: String
+    updatedBy: String
+    isPrivate: Boolean
+    endDate: Date
+    dueDate: Date
+    status: String
+    assignedTo: [String]
+    mentions: [String]
+    tags: [String]
+}
+
+input TodoFilter {
+    by: String!
+    options: TodoFilterOptions
+}
+
+type Todo {
+    id: ID!
+    todo: String!
+    description: String!
+    createdBy: User!
+    updatedBy: User
+    isPrivate: Boolean!
+    org_id: String!
+    dueDate: Date
+    status: String!
+    createdAt: Date!
+    updatedAt: Date!
+    assignedTo: [User]
+    mentions: [User]
+    comments: [TodoComment]
+    tags: [Tag]
+}
+
+type Updated {
+    updated: Boolean
+}
+
+type Deleted {
+    deleted: Boolean
+}
+
+type Query {
+    getTodo(input: TodoFilter) : [Todo]
+}
+
+type Mutation {
+    createTodo(input: TodoCreate) : Todo
+    updateTodoStatus(input: TodoUpdateStatus) : Updated
+    updateTodo(input: TodoUpdate) : Todo
+    deleteTodo(input: TodoDelete) : Deleted
+}
