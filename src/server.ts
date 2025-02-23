@@ -28,7 +28,7 @@ const resolvers = mergeResolvers([
     tagResolvers,
     userResolvers
 ]);
-const typeDefs = loadFilesSync('./dist/graphql/**/*.graphql')
+const typeDefs = loadFilesSync(['./src/graphql/note-comments/index.graphql', './src/graphql/notes/index.graphql', './src/graphql/todo-comments/index.graphql', './src/graphql/todos/index.graphql', './src/graphql/tags/index.graphql', './src/graphql/users/index.graphql']);
 
 const port = process.env.PORT || 5000
 const corsOptions = {

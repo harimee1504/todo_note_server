@@ -38,7 +38,7 @@ const resolvers = (0, merge_1.mergeResolvers)([
     index_5.default,
     index_6.default
 ]);
-const typeDefs = (0, load_files_1.loadFilesSync)('./dist/graphql/**/*.graphql');
+const typeDefs = (0, load_files_1.loadFilesSync)(['./src/graphql/note-comments/index.graphql', './src/graphql/notes/index.graphql', './src/graphql/todo-comments/index.graphql', './src/graphql/todos/index.graphql', './src/graphql/tags/index.graphql', './src/graphql/users/index.graphql']);
 const port = process.env.PORT || 5000;
 const corsOptions = {
     origin: ['https://todo-note-seven.vercel.app', 'http://localhost:3001', "https://31mi1.h.filess.io"],
