@@ -30,3 +30,4 @@ const TodoCommentMentions = db_1.default.define('todo_comment_mentions', {
     }
 });
 exports.default = TodoCommentMentions;
+//# sourceMappingURL=todo-comment-mentions.js.map

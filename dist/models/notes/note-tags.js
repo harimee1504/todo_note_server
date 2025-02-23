@@ -41,3 +41,4 @@ NoteTags.belongsTo(tags_1.default, {
     onUpdate: 'CASCADE'
 });
 exports.default = NoteTags;
+//# sourceMappingURL=note-tags.js.map

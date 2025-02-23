@@ -18,3 +18,4 @@ sequelize
     console.error('Failed to synchronize database:', error);
 });
 exports.default = sequelize;
+//# sourceMappingURL=db.js.map

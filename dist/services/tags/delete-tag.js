@@ -38,3 +38,4 @@ const deleteTag = (payload, context) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.deleteTag = deleteTag;
+//# sourceMappingURL=delete-tag.js.map

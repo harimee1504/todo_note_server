@@ -34,3 +34,4 @@ const user = {
     }
 };
 exports.default = user;
+//# sourceMappingURL=index.js.map

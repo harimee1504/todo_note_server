@@ -41,3 +41,4 @@ const Note = db_1.default.define('notes', {
     }
 });
 exports.default = Note;
+//# sourceMappingURL=notes.js.map

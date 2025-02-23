@@ -30,3 +30,4 @@ const NoteCommentMentions = db_1.default.define('note_comment_mentions', {
     }
 });
 exports.default = NoteCommentMentions;
+//# sourceMappingURL=note-comment-mentions.js.map

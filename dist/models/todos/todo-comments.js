@@ -43,3 +43,4 @@ TodoComments.hasMany(todo_comment_mentions_1.default, {
     as: 'todoCommentMentions',
 });
 exports.default = TodoComments;
+//# sourceMappingURL=todo-comments.js.map

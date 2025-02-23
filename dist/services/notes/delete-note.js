@@ -35,3 +35,4 @@ const deleteNote = (payload, context) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.deleteNote = deleteNote;
+//# sourceMappingURL=delete-note.js.map

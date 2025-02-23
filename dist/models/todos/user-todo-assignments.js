@@ -30,3 +30,4 @@ const UserTodoAssignement = db_1.default.define('user_todo_assignment', {
     }
 });
 exports.default = UserTodoAssignement;
+//# sourceMappingURL=user-todo-assignments.js.map

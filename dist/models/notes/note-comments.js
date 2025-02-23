@@ -43,3 +43,4 @@ NoteComments.hasMany(note_comment_mentions_1.default, {
     as: 'noteCommentMentions',
 });
 exports.default = NoteComments;
+//# sourceMappingURL=note-comments.js.map

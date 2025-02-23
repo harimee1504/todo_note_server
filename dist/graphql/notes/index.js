@@ -25,3 +25,4 @@ const note = {
     }
 };
 exports.default = note;
+//# sourceMappingURL=index.js.map

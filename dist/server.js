@@ -59,3 +59,4 @@ const server = new server_1.ApolloServer({
     console.log(`Server is running on port http://localhost:${port}`);
 }))();
 exports.cache = new node_cache_1.default({ stdTTL: 60 * 5 });
+//# sourceMappingURL=server.js.map

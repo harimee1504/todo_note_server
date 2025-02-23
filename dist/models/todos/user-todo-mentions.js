@@ -30,3 +30,4 @@ const UserTodoMentions = db_1.default.define('user_todo_mentions', {
     }
 });
 exports.default = UserTodoMentions;
+//# sourceMappingURL=user-todo-mentions.js.map

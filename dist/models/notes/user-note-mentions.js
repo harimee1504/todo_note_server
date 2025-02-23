@@ -30,3 +30,4 @@ const UserNoteMentions = db_1.default.define('user_note_mentions', {
     }
 });
 exports.default = UserNoteMentions;
+//# sourceMappingURL=user-note-mentions.js.map

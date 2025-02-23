@@ -37,3 +37,4 @@ const deleteNoteComment = (payload, context) => __awaiter(void 0, void 0, void 0
     }
 });
 exports.deleteNoteComment = deleteNoteComment;
+//# sourceMappingURL=delete-note-comment.js.map

@@ -27,3 +27,4 @@ notes_1.default.hasMany(note_tags_1.default, {
     as: 'noteTags',
     onDelete: 'CASCADE',
 });
+//# sourceMappingURL=index.js.map

@@ -25,3 +25,4 @@ const Tags = db_1.default.define('tags', {
     }
 });
 exports.default = Tags;
+//# sourceMappingURL=tags.js.map

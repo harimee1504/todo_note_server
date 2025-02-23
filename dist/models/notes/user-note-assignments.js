@@ -30,3 +30,4 @@ const UserNoteAssignement = db_1.default.define('user_note_assignment', {
     }
 });
 exports.default = UserNoteAssignement;
+//# sourceMappingURL=user-note-assignments.js.map

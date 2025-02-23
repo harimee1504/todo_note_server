@@ -41,3 +41,4 @@ TodoTags.belongsTo(tags_1.default, {
     onUpdate: 'CASCADE'
 });
 exports.default = TodoTags;
+//# sourceMappingURL=todo-tags.js.map
