@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import 'dotenv/config'
 import cors from 'cors'
 import http from 'http'
@@ -10,7 +12,6 @@ import { ApolloServer, BaseContext } from '@apollo/server'
 import { expressMiddleware } from '@apollo/server/express4'
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
 
-import { loadFilesSync } from '@graphql-tools/load-files'
 import { mergeResolvers } from "@graphql-tools/merge";
 
 import noteCommentResolvers from './graphql/note-comments/index'
@@ -28,7 +29,31 @@ const resolvers = mergeResolvers([
     tagResolvers,
     userResolvers
 ]);
-const typeDefs = loadFilesSync(['./src/graphql/note-comments/index.graphql', './src/graphql/notes/index.graphql', './src/graphql/todo-comments/index.graphql', './src/graphql/todos/index.graphql', './src/graphql/tags/index.graphql', './src/graphql/users/index.graphql']);
+
+
+
+const loadTypeDefs = (filePaths: any[]) => {
+  return filePaths.map(filePath => {
+
+    const fullPath = path.join(__dirname, filePath);
+
+    return fs.readFileSync(fullPath, 'utf-8');
+  }).join('\n');
+};
+
+
+const schemaPaths = [
+  './graphql/note-comments/index.graphql',
+  './graphql/notes/index.graphql',
+  './graphql/todo-comments/index.graphql',
+  './graphql/todos/index.graphql',
+  './graphql/tags/index.graphql',
+  './graphql/users/index.graphql'
+];
+
+
+const typeDefs = loadTypeDefs(schemaPaths);
+
 
 const port = process.env.PORT || 5000
 const corsOptions = {

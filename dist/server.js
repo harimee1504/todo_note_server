@@ -13,6 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cache = void 0;
+const fs_1 = __importDefault(require("fs"));
+const path_1 = __importDefault(require("path"));
 require("dotenv/config");
 const cors_1 = __importDefault(require("cors"));
 const http_1 = __importDefault(require("http"));
@@ -22,7 +24,6 @@ const express_2 = require("@clerk/express");
 const server_1 = require("@apollo/server");
 const express4_1 = require("@apollo/server/express4");
 const drainHttpServer_1 = require("@apollo/server/plugin/drainHttpServer");
-const load_files_1 = require("@graphql-tools/load-files");
 const merge_1 = require("@graphql-tools/merge");
 const index_1 = __importDefault(require("./graphql/note-comments/index"));
 const index_2 = __importDefault(require("./graphql/notes/index"));
@@ -38,7 +39,21 @@ const resolvers = (0, merge_1.mergeResolvers)([
     index_5.default,
     index_6.default
 ]);
-const typeDefs = (0, load_files_1.loadFilesSync)(['./src/graphql/note-comments/index.graphql', './src/graphql/notes/index.graphql', './src/graphql/todo-comments/index.graphql', './src/graphql/todos/index.graphql', './src/graphql/tags/index.graphql', './src/graphql/users/index.graphql']);
+const loadTypeDefs = (filePaths) => {
+    return filePaths.map(filePath => {
+        const fullPath = path_1.default.join(__dirname, filePath);
+        return fs_1.default.readFileSync(fullPath, 'utf-8');
+    }).join('\n');
+};
+const schemaPaths = [
+    './graphql/note-comments/index.graphql',
+    './graphql/notes/index.graphql',
+    './graphql/todo-comments/index.graphql',
+    './graphql/todos/index.graphql',
+    './graphql/tags/index.graphql',
+    './graphql/users/index.graphql'
+];
+const typeDefs = loadTypeDefs(schemaPaths);
 const port = process.env.PORT || 5000;
 const corsOptions = {
     origin: ['https://todo-note-seven.vercel.app', 'http://localhost:3001', "https://31mi1.h.filess.io"],
