@@ -1,14 +1,14 @@
 {
-  "version": 2,
-  "functions": {
-    "api/graphql/typeDefs.ts":  {
-      "includeFiles": "api/graphql/**/*.graphql"
-    }
- },
- "routes": [
-  {
-    "src": "/(.*)",
-    "dest": "api/index.ts"
-  }
-]
+    "version": 2,
+    "functions": {
+        "api/**/*.ts": {
+            "includeFiles": "api/graphql/**/*.graphql"
+        }
+    },
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "api/index.ts"
+        }
+    ]
 }
