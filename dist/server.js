@@ -13,7 +13,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cache = void 0;
-const fs_1 = require("fs");
 require("dotenv/config");
 const cors_1 = __importDefault(require("cors"));
 const http_1 = __importDefault(require("http"));
@@ -30,6 +29,7 @@ const index_3 = __importDefault(require("./graphql/todo-comments/index"));
 const index_4 = __importDefault(require("./graphql/todos/index"));
 const index_5 = __importDefault(require("./graphql/tags/index"));
 const index_6 = __importDefault(require("./graphql/users/index"));
+const typeDefs_1 = __importDefault(require("./graphql/typeDefs"));
 const resolvers = (0, merge_1.mergeResolvers)([
     index_1.default,
     index_2.default,
@@ -38,20 +38,6 @@ const resolvers = (0, merge_1.mergeResolvers)([
     index_5.default,
     index_6.default
 ]);
-const loadTypeDefs = (filePaths) => __awaiter(void 0, void 0, void 0, function* () {
-    const files = yield Promise.all(filePaths.map((filePath) => __awaiter(void 0, void 0, void 0, function* () {
-        return yield fs_1.promises.readFile(process.cwd() + filePath, 'utf-8');
-    })));
-    return files.join('\n');
-});
-const schemaPaths = [
-    '/src/graphql/note-comments/index.graphql',
-    '/src/graphql/notes/index.graphql',
-    '/src/graphql/todo-comments/index.graphql',
-    '/src/graphql/todos/index.graphql',
-    '/src/graphql/tags/index.graphql',
-    '/src/graphql/users/index.graphql'
-];
 const port = process.env.PORT || 5000;
 const corsOptions = {
     origin: ['https://todo-note-seven.vercel.app', 'http://localhost:3001', "https://31mi1.h.filess.io"],
@@ -61,9 +47,8 @@ const app = (0, express_1.default)();
 app.use((0, express_2.clerkMiddleware)(), (0, cors_1.default)(corsOptions));
 const httpServer = http_1.default.createServer(app);
 const startApolloServer = (app, httpServer) => __awaiter(void 0, void 0, void 0, function* () {
-    const typeDefs = yield loadTypeDefs(schemaPaths);
     const server = new server_1.ApolloServer({
-        typeDefs,
+        typeDefs: typeDefs_1.default,
         resolvers,
         introspection: true,
         plugins: [(0, drainHttpServer_1.ApolloServerPluginDrainHttpServer)({ httpServer })],

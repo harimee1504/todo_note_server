@@ -1,5 +1,3 @@
-import { promises as fs} from 'fs';
-import path from 'path';
 import 'dotenv/config'
 import cors from 'cors'
 import http from 'http'
@@ -21,6 +19,8 @@ import todoResolvers from './graphql/todos/index'
 import tagResolvers from './graphql/tags/index'
 import userResolvers from './graphql/users/index'
 
+import typeDefs from './graphql/typeDefs'
+
 const resolvers = mergeResolvers([
     noteCommentResolvers,
     noteResolvers,
@@ -29,28 +29,6 @@ const resolvers = mergeResolvers([
     tagResolvers,
     userResolvers
 ]);
-
-
-
-const loadTypeDefs = async (filePaths: any[]) => {
-    const files = await Promise.all(
-      filePaths.map(async (filePath) => {
-        return await fs.readFile(process.cwd() + filePath, 'utf-8');
-      })
-    );
-    return files.join('\n');
-  };
-
-
-const schemaPaths = [
-  '/src/graphql/note-comments/index.graphql',
-  '/src/graphql/notes/index.graphql',
-  '/src/graphql/todo-comments/index.graphql',
-  '/src/graphql/todos/index.graphql',
-  '/src/graphql/tags/index.graphql',
-  '/src/graphql/users/index.graphql'
-];
-
 
 const port = process.env.PORT || 5000
 const corsOptions = {
@@ -66,8 +44,6 @@ const httpServer = http.createServer(app)
 
 const startApolloServer = async (app: express.Express, httpServer: http.Server<typeof http.IncomingMessage, typeof http.ServerResponse>) => {
  
-    const typeDefs = await loadTypeDefs(schemaPaths);
-
     const server = new ApolloServer<BaseContext>({
         typeDefs,
         resolvers,
