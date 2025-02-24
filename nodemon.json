@@ -1,5 +1,5 @@
 {
     "watch": ["api"],
     "ext": "ts",
-    "exec": "node --inspect=127.0.0.1:9230 -r ts-node/register api/server.ts"
+    "exec": "node --inspect=127.0.0.1:9230 -r ts-node/register api/index.ts"
 }

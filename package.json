@@ -1,12 +1,12 @@
 {
     "name": "server",
     "version": "1.0.0",
-    "main": "dist/server.js",
+    "main": "dist/index.js",
     "scripts": {
         "build": "npx tsc && copyfiles -u 1 api/**/*.graphql dist/",
-        "start": "node dist/server.js",
-        "dev": "nodemon api/server.ts",
-        "debug": "nodemon --inspect=127.0.0.1:9230 api/server.ts",
+        "start": "node dist/index.js",
+        "dev": "nodemon api/index.ts",
+        "debug": "nodemon --inspect=127.0.0.1:9230 api/index.ts",
         "format:check": "prettier --check .",
         "format:write": "prettier --write .",
         "lint:check": "eslint .",
