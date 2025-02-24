@@ -3,10 +3,10 @@
     "version": "1.0.0",
     "main": "dist/server.js",
     "scripts": {
-        "build": "npx tsc && copyfiles -u 1 src/**/*.graphql dist/",
+        "build": "npx tsc && copyfiles -u 1 api/**/*.graphql dist/",
         "start": "node dist/server.js",
-        "dev": "nodemon src/server.ts",
-        "debug": "nodemon --inspect=127.0.0.1:9230 src/server.ts",
+        "dev": "nodemon api/server.ts",
+        "debug": "nodemon --inspect=127.0.0.1:9230 api/server.ts",
         "format:check": "prettier --check .",
         "format:write": "prettier --write .",
         "lint:check": "eslint .",
