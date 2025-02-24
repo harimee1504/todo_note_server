@@ -3,12 +3,12 @@ import path from 'path';
 import { mergeTypeDefs } from "@graphql-tools/merge";
 
 const graphqlFilePaths = [   
-    'api/graphql/note-comments/index.graphql',
-    'api/graphql/notes/index.graphql',
-    'api/graphql/todo-comments/index.graphql',
-    'api/graphql/todos/index.graphql',
-    'api/graphql/tags/index.graphql',
-    'api/graphql/users/index.graphql'
+    'api/graphql/note-comments/schema.graphql',
+    'api/graphql/notes/schema.graphql',
+    'api/graphql/todo-comments/schema.graphql',
+    'api/graphql/todos/schema.graphql',
+    'api/graphql/tags/schema.graphql',
+    'api/graphql/users/schema.graphql'
 ]
 
 const parsedGraphqlFiles = graphqlFilePaths.map(filePath => {

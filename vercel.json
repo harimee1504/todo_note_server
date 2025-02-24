@@ -1,7 +1,7 @@
 {
   "version": 2,
   "functions": {
-    "api/**/*.ts":  {
+    "api/graphql/typeDefs.ts":  {
       "includeFiles": "api/graphql/**/*.graphql"
     }
  }
