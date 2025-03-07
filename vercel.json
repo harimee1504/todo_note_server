@@ -10,7 +10,11 @@
     },
     "routes": [
         {
-            "src": "/(.*)",
+            "src": "/",
+            "dest": "api/index.ts"
+        },
+        {
+            "src": "/graphql",
             "dest": "api/index.ts"
         }
     ]
