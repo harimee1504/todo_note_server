@@ -65,7 +65,7 @@ const startApolloServer = async (app: express.Express, httpServer: http.Server<t
         },
     })
     
-    app.use('/graphql', express.json(), requireAuth(), apolloMiddleware as any)
+    app.use('/', express.json(), requireAuth(), apolloMiddleware as any)
     
     await new Promise<void>((resolve) => httpServer.listen({ port: port, host: '0.0.0.0' }, resolve))
     
