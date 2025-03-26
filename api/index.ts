@@ -31,6 +31,7 @@ const resolvers = mergeResolvers([
 ]);
 
 const port = process.env.PORT || 5000
+
 const corsOptions = {
     origin: ['https://todo-note-seven.vercel.app'],
     credentials: true,
@@ -39,24 +40,26 @@ const corsOptions = {
     preflightContinue: false
 }
 
-const app = express()
+async function startServer() {
+    const app = express()
 
-app.use(cors(corsOptions))
+    // Apply CORS first
+    app.use(cors(corsOptions))
 
-app.get('/health', (req, res) => {
-    res.status(200).json({ status: 'ok' });
-});
+    // Health check endpoint
+    app.get('/health', (req, res) => {
+        res.status(200).json({ status: 'ok' });
+    });
 
-app.get('/', (req, res) => {
-    res.status(200).json({ message: 'Todo Note API is running' });
-});
+    // Root endpoint
+    app.get('/', (req, res) => {
+        res.status(200).json({ message: 'Todo Note API is running' });
+    });
 
-app.use(clerkMiddleware())
+    // Create HTTP server
+    const httpServer = http.createServer(app)
 
-const httpServer = http.createServer(app)
-
-const startApolloServer = async (app: express.Express, httpServer: http.Server<typeof http.IncomingMessage, typeof http.ServerResponse>) => {
- 
+    // Create Apollo Server
     const server = new ApolloServer<BaseContext>({
         typeDefs,
         resolvers,
@@ -70,23 +73,38 @@ const startApolloServer = async (app: express.Express, httpServer: http.Server<t
         },
     });
 
+    // Start Apollo Server
     await server.start()
-    
+
+    // Apply Clerk middleware
+    app.use(clerkMiddleware())
+
+    // Create Apollo middleware
     const apolloMiddleware = expressMiddleware(server, {
         context: async ({ req, res }) => {
             return { req, res }
         },
     })
-    
-    app.use(['/', '/graphql'], express.json(), requireAuth(), apolloMiddleware as any)
-    
-    await new Promise<void>((resolve) => httpServer.listen({ port: port, host: '0.0.0.0' }, resolve))
-    
-    console.log(`Server is running on port http://localhost:${port}`)
+
+    // Apply GraphQL middleware
+    app.use('/graphql', 
+        express.json(),
+        requireAuth(),
+        apolloMiddleware as any
+    )
+
+    // Start HTTP server
+    await new Promise<void>((resolve) => {
+        httpServer.listen({ port }, resolve)
+    })
+
+    console.log(`🚀 Server ready at http://localhost:${port}/graphql`)
 }
 
-startApolloServer(app, httpServer);
+// Start the server
+startServer().catch((err) => {
+    console.error('Failed to start server:', err)
+    process.exit(1)
+})
 
 export const cache = new NodeCache({ stdTTL: 60 * 5 });
-
-export default httpServer;
