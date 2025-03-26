@@ -32,13 +32,17 @@ const resolvers = mergeResolvers([
 
 const port = process.env.PORT || 5000
 const corsOptions = {
-    origin: ['https://todo-note-seven.vercel.app', 'http://localhost:3001', "https://31mi1.h.filess.io"],
+    origin: ['https://todo-note-seven.vercel.app'],
     credentials: true,
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    preflightContinue: false
 }
 
 const app = express()
 
-app.use(clerkMiddleware(), cors(corsOptions))
+app.use(cors(corsOptions))
+app.use(clerkMiddleware())
 
 const httpServer = http.createServer(app)
 
