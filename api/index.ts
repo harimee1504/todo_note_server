@@ -37,7 +37,9 @@ const corsOptions = {
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-    preflightContinue: false
+    exposedHeaders: ['Content-Type', 'Authorization'],
+    preflightContinue: false,
+    optionsSuccessStatus: 204
 }
 
 // Custom auth middleware
@@ -58,6 +60,9 @@ async function startServer() {
 
     // Apply CORS first
     app.use(cors(corsOptions))
+
+    // Handle preflight requests
+    app.options('*', cors(corsOptions))
 
     // Health check endpoint
     app.get('/health', (req, res) => {
