@@ -36,8 +36,21 @@ const corsOptions = {
     origin: ['https://todo-note-seven.vercel.app'],
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Cookie'],
-    exposedHeaders: ['Content-Type', 'Authorization', 'Set-Cookie'],
+    allowedHeaders: [
+        'Content-Type', 
+        'Authorization', 
+        'X-Requested-With', 
+        'Cookie',
+        '__clerk_db_jwt',
+        '__client_uat'
+    ],
+    exposedHeaders: [
+        'Content-Type', 
+        'Authorization', 
+        'Set-Cookie',
+        '__clerk_db_jwt',
+        '__client_uat'
+    ],
     preflightContinue: false,
     optionsSuccessStatus: 204
 }
@@ -97,6 +110,8 @@ async function startServer() {
     // Create Apollo middleware
     const apolloMiddleware = expressMiddleware(server, {
         context: async ({ req, res }) => {
+            // Log cookies for debugging
+            console.log('Cookies received:', req.headers.cookie);
             return { req, res }
         },
     })
