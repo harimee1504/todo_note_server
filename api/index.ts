@@ -36,8 +36,8 @@ const corsOptions = {
     origin: ['https://todo-note-seven.vercel.app'],
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-    exposedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Cookie'],
+    exposedHeaders: ['Content-Type', 'Authorization', 'Set-Cookie'],
     preflightContinue: false,
     optionsSuccessStatus: 204
 }
