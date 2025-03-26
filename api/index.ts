@@ -76,9 +76,6 @@ async function startServer() {
     // Start Apollo Server
     await server.start()
 
-    // Apply Clerk middleware
-    app.use(clerkMiddleware())
-
     // Create Apollo middleware
     const apolloMiddleware = expressMiddleware(server, {
         context: async ({ req, res }) => {
@@ -86,9 +83,10 @@ async function startServer() {
         },
     })
 
-    // Apply GraphQL middleware
+    // Apply GraphQL middleware with authentication
     app.use('/graphql', 
         express.json(),
+        clerkMiddleware(),
         requireAuth(),
         apolloMiddleware as any
     )
