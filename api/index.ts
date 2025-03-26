@@ -4,7 +4,7 @@ import http from 'http'
 import express from 'express'
 import NodeCache from "node-cache";
 
-import { clerkMiddleware, requireAuth } from '@clerk/express'
+import { clerkMiddleware, requireAuth, getAuth } from '@clerk/express'
 
 import { ApolloServer, BaseContext } from '@apollo/server'
 import { expressMiddleware } from '@apollo/server/express4'
@@ -39,6 +39,19 @@ const corsOptions = {
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
     preflightContinue: false
 }
+
+// Custom auth middleware
+const authMiddleware = (req: express.Request, res: express.Response, next: express.NextFunction): void => {
+    const auth = getAuth(req);
+    if (!auth || !auth.userId) {
+        res.status(401).json({ 
+            error: 'Unauthorized',
+            message: 'Authentication required'
+        });
+        return;
+    }
+    next();
+};
 
 async function startServer() {
     const app = express()
@@ -87,7 +100,7 @@ async function startServer() {
     app.use('/graphql', 
         express.json(),
         clerkMiddleware(),
-        requireAuth(),
+        authMiddleware,
         apolloMiddleware as any
     )
 
