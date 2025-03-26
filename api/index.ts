@@ -47,6 +47,10 @@ app.get('/health', (req, res) => {
     res.status(200).json({ status: 'ok' });
 });
 
+app.get('/', (req, res) => {
+    res.status(200).json({ message: 'Todo Note API is running' });
+});
+
 app.use(clerkMiddleware())
 
 const httpServer = http.createServer(app)
@@ -74,7 +78,7 @@ const startApolloServer = async (app: express.Express, httpServer: http.Server<t
         },
     })
     
-    app.use('/graphql', express.json(), requireAuth(), apolloMiddleware as any)
+    app.use(['/', '/graphql'], express.json(), requireAuth(), apolloMiddleware as any)
     
     await new Promise<void>((resolve) => httpServer.listen({ port: port, host: '0.0.0.0' }, resolve))
     
