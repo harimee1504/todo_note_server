@@ -33,7 +33,21 @@ const resolvers = mergeResolvers([
 const port = process.env.PORT || 5000
 
 const corsOptions = {
-    origin: ['https://todo-note-seven.vercel.app'],
+    origin: function(origin: string | undefined, callback: (error: Error | null, allow?: boolean) => void) {
+        const allowedOrigins = [
+            'https://todo-note-seven.vercel.app',
+            'http://localhost:5173'
+        ];
+        
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) {
+            callback(null, true);
+        } else if (allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: [
