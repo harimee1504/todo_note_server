@@ -8,10 +8,10 @@ const user = {
                 const userData = users.data.map((user: any) => {
                     return {
                         id: user.id,
-                        firstName: user.firstName,
-                        lastName: user.lastName,
-                        email: user.emailAddresses[0].emailAddress,
-                        imageUrl: user.imageUrl
+                        firstName: user.firstName || user.emailAddresses[0].emailAddress || '',
+                        lastName: user.lastName || '',
+                        email: user.emailAddresses[0].emailAddress || '',
+                        imageUrl: user.imageUrl || ''
                     }
                 })
                 return userData
