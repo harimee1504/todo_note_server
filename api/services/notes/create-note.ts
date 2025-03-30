@@ -91,7 +91,6 @@ export const createNote = async (payload: any, context: any) => {
             await NoteTags.bulkCreate(noteTags, { transaction });
         }
         await transaction?.commit()
-        console.log({...insertedNote, createdBy: userMap[insertedNote.createdBy], updatedBy: userMap[insertedNote.updatedBy],  attendees: attendeesData, tags:tagData, mentions: mentionData})
         return {...insertedNote, createdBy: userMap[insertedNote.createdBy], updatedBy: userMap[insertedNote.updatedBy],  attendees: attendeesData, tags:tagData, mentions: mentionData};
     } catch (error) {
         await transaction?.rollback()
