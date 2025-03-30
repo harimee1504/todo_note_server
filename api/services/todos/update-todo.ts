@@ -6,10 +6,12 @@ import TodoAssignement from '../../models/todos/user-todo-assignments'
 import TodoComments from '../../models/todos/todo-comments'
 import TodoCommentMentions from '../../models/todos/todo-comment-mentions'
 import UserTodoMentions from '../../models/todos/user-todo-mentions'
+import { validateOrganization } from '../../utils/organization'
 
 export const updateTodo = async (payload: any, context: any) => {
     const transaction = await Todo.sequelize?.transaction()
     try {
+        validateOrganization(context.req, payload.input.orgId);
         const data = {
             ...payload.input,
             updatedBy: context.req.auth.userId,

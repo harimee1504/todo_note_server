@@ -1,7 +1,11 @@
 import { getFilteredTodo, getTodoByAssignedTo, getTodoByMentions, getTodoByTags } from '.';
+import { validateOrganization } from '../../utils/organization';
 
 export const getTodo = async (payload: any, context: any) => {
     const { by, options = {} } = payload?.input;
+    // Validate organization
+    validateOrganization(context.req, options.orgId);
+
     const ENUM = {
         orgId: () => getFilteredTodo(by, options, context),
         todo: () => getFilteredTodo(by, options, context),

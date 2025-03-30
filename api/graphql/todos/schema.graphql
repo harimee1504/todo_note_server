@@ -8,6 +8,7 @@ input TodoCreate {
     assignedTo: [String]
     mentions: [String]
     tags: [String]
+    orgId: String
 }
 
 input TodoUpdate {
@@ -20,15 +21,18 @@ input TodoUpdate {
     assignedTo: [String]
     mentions: [String]
     tags: [String]
+    orgId: String
 }
 
 input TodoUpdateStatus {
     id: ID!
     status: String
+    orgId: String
 }
 
 input TodoDelete {
     id: ID!
+    orgId: String
 }
 
 input TodoFilterOptions {
@@ -43,11 +47,13 @@ input TodoFilterOptions {
     assignedTo: [String]
     mentions: [String]
     tags: [String]
+    orgId: String
 }
 
 input TodoFilter {
     by: String!
     options: TodoFilterOptions
+    orgId: String
 }
 
 type Todo {

@@ -1,7 +1,11 @@
 import { getNoteByMentions , getNoteByAssignedTo, getNoteByTags, getFilteredNote } from "./index";
-
+import { validateOrganization } from "../../utils/organization";
 export const getNotes = async (payload: any, context: any) => {
     const { by, options = {} } = payload?.input;
+
+    // Validate organization
+    validateOrganization(context.req, options.orgId);
+
     const ENUM = {
         orgId: () => getFilteredNote(by, options, context),
         note: () => getFilteredNote(by, options, context),

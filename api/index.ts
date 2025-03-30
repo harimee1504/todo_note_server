@@ -20,6 +20,7 @@ import tagResolvers from './graphql/tags/index'
 import userResolvers from './graphql/users/index'
 
 import typeDefs from './graphql/typeDefs'
+import { OrganizationValidationError } from './utils/organization'
 
 const resolvers = mergeResolvers([
     noteCommentResolvers,
@@ -36,7 +37,7 @@ const corsOptions = {
     origin: function(origin: string | undefined, callback: (error: Error | null, allow?: boolean) => void) {
         const allowedOrigins = [
             'https://todo-note-seven.vercel.app',
-            'http://localhost:5173'
+            'http://localhost:3000'
         ];
         
         // Allow requests with no origin (like mobile apps or curl requests)
@@ -110,7 +111,13 @@ async function startServer() {
         resolvers,
         introspection: true,
         plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
-        formatError: (error) => {
+        formatError: (error: any) => {
+            if (error.originalError instanceof OrganizationValidationError) {
+                return {
+                    message: error.originalError.message,
+                    statusCode: 403,
+                }
+            }
             return {
                 message: error.message,
                 statusCode: error.extensions?.code || 500,

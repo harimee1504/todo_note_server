@@ -6,10 +6,14 @@ import NoteCommentMentions from '../../models/notes/note-comment-mentions'
 import NoteTags from '../../models/notes/note-tags'
 import UserNoteMentions from '../../models/notes/user-note-mentions'
 import { Note } from '../../models/notes'
+import { validateOrganization } from '../../utils/organization'
 
 export const updateNote = async (payload: any, context: any) => {
     const transaction = await Note.sequelize?.transaction()
     try {
+        // Validate organization
+        validateOrganization(context.req, payload.input.orgId);
+
         const data = {
             ...payload.input,
             updatedby: context.req.auth.userId,

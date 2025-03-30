@@ -5,6 +5,7 @@ import Todo from '../../models/todos/todos'
 import TodoTags from '../../models/todos/todo-tags'
 import TodoAssignement from '../../models/todos/user-todo-assignments'
 import TodoMentions from '../../models/todos/user-todo-mentions'
+import { validateOrganization } from '../../utils/organization'
 
 export const createTodo = async (payload: any, context: any) => {
     const transaction = await Todo.sequelize?.transaction()
@@ -15,6 +16,9 @@ export const createTodo = async (payload: any, context: any) => {
             updatedBy: context.req.auth.userId,
             org_id: context.req.auth.orgId,
         }
+
+        validateOrganization(context.req, payload.input.orgId);
+
         const { tags = [], assignedTo = [], mentions = [] } = payload.input
 
         if(data.isPrivate) {

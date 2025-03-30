@@ -5,6 +5,7 @@ import UserNoteAssignement from '../../models/notes/user-note-assignments'
 import NoteTags from '../../models/notes/note-tags'
 import UserNoteMentions from '../../models/notes/user-note-mentions'
 import { Note } from '../../models/notes'
+import { validateOrganization } from '../../utils/organization'
 
 export const createNote = async (payload: any, context: any) => {
     const transaction = await Note.sequelize?.transaction()
@@ -15,6 +16,7 @@ export const createNote = async (payload: any, context: any) => {
             updatedBy: context.req.auth.userId,
             org_id: context.req.auth.orgId,
         }
+        validateOrganization(context.req, payload.input.orgId);
         const { tags = [], attendees = [], mentions = [] } = payload.input
 
         if (tags.length > 10) {

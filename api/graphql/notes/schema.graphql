@@ -8,6 +8,7 @@ input NoteCreate {
     endTime: Date!
     attendees: [String]!
     tags: [String]
+    orgId: String
 }
 
 input NoteUpdate {
@@ -19,10 +20,12 @@ input NoteUpdate {
     endTime: Date!
     attendees: [String]!
     tags: [String]
+    orgId: String
 }
 
 input NoteDelete {
     id: ID!
+    orgId: String
 }
 
 input NotesFilterOptions {
@@ -35,11 +38,13 @@ input NotesFilterOptions {
     attendees: [String]
     mentions: [String]
     tags: [String]
+    orgId: String
 }
 
 input NotesFilter {
     by: String!
     options: NotesFilterOptions
+    orgId: String
 }
 
 type Note {
