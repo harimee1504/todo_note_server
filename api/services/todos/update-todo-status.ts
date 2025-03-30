@@ -1,6 +1,6 @@
 import { CustomError, getUsers } from '../../utils/utils'
 import Todo from '../../models/todos/todos'
-
+import { validateOrganization } from '../../utils/organization'
 export const updateTodoStatus = async (payload: any, context: any) => {
     const transaction = await Todo.sequelize?.transaction()
     try {
@@ -9,6 +9,7 @@ export const updateTodoStatus = async (payload: any, context: any) => {
             updatedBy: context.req.auth.userId,
             org_id: context.req.auth.orgId
         }
+        validateOrganization(context.req, payload.input.orgId);
         let { id: todo_id } = data;
 
         const [updatedRowsCount] = await Todo.update(data, { 
